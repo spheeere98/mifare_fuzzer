@@ -83,7 +83,8 @@ MifareFuzzerApp* mifare_fuzzer_alloc() {
 
     // furi strings
     app->uid_str = furi_string_alloc();
-    app->file_path = furi_string_alloc();
+    app->uid_file_path = furi_string_alloc();
+    app->card_file_path = furi_string_alloc();
     app->app_folder = furi_string_alloc_set(MIFARE_FUZZER_APP_FOLDER);
 
     return app;
@@ -134,7 +135,8 @@ void mifare_fuzzer_free(MifareFuzzerApp* app) {
 
     // furi strings
     furi_string_free(app->uid_str);
-    furi_string_free(app->file_path);
+    furi_string_free(app->uid_file_path);
+    furi_string_free(app->card_file_path);
     furi_string_free(app->app_folder);
 
     // App

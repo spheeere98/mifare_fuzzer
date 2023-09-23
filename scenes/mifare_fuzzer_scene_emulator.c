@@ -67,14 +67,14 @@ void mifare_fuzzer_scene_emulator_on_enter(void* context) {
 /// @return
 bool mifare_fuzzer_scene_emulator_on_event(void* context, SceneManagerEvent event) {
     //FURI_LOG_D(TAG, "mifare_fuzzer_scene_emulator_on_event()");
-    FuriHalNfcDevData nfc_dev_data;
-
     MifareFuzzerApp* app = context;
     MifareFuzzerEmulator* emulator = app->emulator_view;
-    if(!nfc_device_load(app->dev, "/ext/nfc/file.nfc", true)) {
-        return false;
+    if(app->card_file_path != NULL) {
+        nfc_device_load(app->dev, furi_string_get_cstr(app->card_file_path), false);
     }
     NfcDevice* nfc_device = app->dev;
+
+    FuriHalNfcDevData nfc_dev_data;
 
     bool consumed = false;
 
@@ -182,7 +182,6 @@ bool mifare_fuzzer_scene_emulator_on_event(void* context, SceneManagerEvent even
 
             // Start worker
             mifare_fuzzer_worker_start(app->worker);
-
         } else if(event.event == MifareFuzzerEventStopAttack) {
             //FURI_LOG_D(TAG, "mifare_fuzzer_scene_emulator_on_event() :: MifareFuzzerEventStopAttack");
             // Stop worker
