@@ -73,6 +73,17 @@ bool mifare_fuzzer_scene_emulator_on_event(void* context, SceneManagerEvent even
         nfc_device_load(app->dev, furi_string_get_cstr(app->card_file_path), false);
     }
     NfcDevice* nfc_device = app->dev;
+    if(nfc_device != NULL) {
+        MfClassicType type = nfc_device->dev_data.mf_classic_data.type;
+        if(type == MfClassicType1k) {
+            app->card = MifareCardClassic1k;
+        } else if(type == MfClassicType4k) {
+            app->card = MifareCardClassic4k;
+        } else if(nfc_device->dev_data.protocol == NfcDeviceProtocolMifareUl) {
+            app->card = MifareCardUltralight;
+        }
+        mifare_fuzzer_emulator_set_card(emulator, app->card, app->card_file_path);
+    }
 
     FuriHalNfcDevData nfc_dev_data;
 

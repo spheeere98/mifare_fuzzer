@@ -45,7 +45,10 @@ void mifare_fuzzer_emulator_free(MifareFuzzerEmulator* context);
 
 View* mifare_fuzzer_emulator_get_view(MifareFuzzerEmulator* context);
 
-void mifare_fuzzer_emulator_set_card(MifareFuzzerEmulator* mifare_fuzzer_emulator, MifareCard mifare_card);
+void mifare_fuzzer_emulator_set_card(
+    MifareFuzzerEmulator* mifare_fuzzer_emulator,
+    MifareCard mifare_card,
+    FuriString* name);
 void mifare_fuzzer_emulator_set_attack(MifareFuzzerEmulator* mifare_fuzzer_emulator, MifareFuzzerAttack mifare_attack);
 
 void mifare_fuzzer_emulator_set_callback(

@@ -86,30 +86,34 @@ bool mifare_fuzzer_scene_start_on_event(void* context, SceneManagerEvent event) 
 
     if(event.type == SceneManagerEventTypeCustom) {
         //FURI_LOG_D(TAG, "mifare_fuzzer_scene_start_on_event() :: event.event = %ld", event.event);
+        app->card_file_path = NULL;
         if(event.event == MifareFuzzerEventClassic1k) {
             // save selected item
-            scene_manager_set_scene_state(app->scene_manager, MifareFuzzerSceneStart, SubmenuIndexClassic1k);
+            scene_manager_set_scene_state(
+                app->scene_manager, MifareFuzzerSceneStart, SubmenuIndexClassic1k);
             // set emulator card
             app->card = MifareCardClassic1k;
-            mifare_fuzzer_emulator_set_card(app->emulator_view, app->card);
+            mifare_fuzzer_emulator_set_card(app->emulator_view, app->card, NULL);
             // open next scene
             scene_manager_next_scene(app->scene_manager, MifareFuzzerSceneAttack);
             consumed = true;
         } else if(event.event == MifareFuzzerEventClassic4k) {
             // save selected item
-            scene_manager_set_scene_state(app->scene_manager, MifareFuzzerSceneStart, SubmenuIndexClassic4k);
+            scene_manager_set_scene_state(
+                app->scene_manager, MifareFuzzerSceneStart, SubmenuIndexClassic4k);
             // set emulator card
             app->card = MifareCardClassic4k;
-            mifare_fuzzer_emulator_set_card(app->emulator_view, app->card);
+            mifare_fuzzer_emulator_set_card(app->emulator_view, app->card, NULL);
             // open next scene
             scene_manager_next_scene(app->scene_manager, MifareFuzzerSceneAttack);
             consumed = true;
         } else if(event.event == MifareFuzzerEventUltralight) {
             // save selected item
-            scene_manager_set_scene_state(app->scene_manager, MifareFuzzerSceneStart, SubmenuIndexUltralight);
+            scene_manager_set_scene_state(
+                app->scene_manager, MifareFuzzerSceneStart, SubmenuIndexUltralight);
             // set emulator card
             app->card = MifareCardUltralight;
-            mifare_fuzzer_emulator_set_card(app->emulator_view, app->card);
+            mifare_fuzzer_emulator_set_card(app->emulator_view, app->card, NULL);
             // open next scene
             scene_manager_next_scene(app->scene_manager, MifareFuzzerSceneAttack);
             consumed = true;
@@ -123,6 +127,7 @@ bool mifare_fuzzer_scene_start_on_event(void* context, SceneManagerEvent event) 
             dialog_file_browser_set_basic_options(
                 &browser_options, MIFARE_FUZZER_CARD_FILE_EXT, NULL);
             browser_options.hide_ext = false;
+            app->card_file_path = furi_string_alloc();
             bool wasFileSelected = dialog_file_browser_show(
                 app->dialogs, app->card_file_path, initial_path, &browser_options);
             if(wasFileSelected) {

@@ -136,8 +136,10 @@ void mifare_fuzzer_free(MifareFuzzerApp* app) {
     // furi strings
     furi_string_free(app->uid_str);
     furi_string_free(app->uid_file_path);
-    furi_string_free(app->card_file_path);
     furi_string_free(app->app_folder);
+    if(app->card_file_path != NULL) {
+        furi_string_free(app->card_file_path);
+    }
 
     // App
     //FURI_LOG_D(TAG, "mifare_fuzzer_free() :: App");
