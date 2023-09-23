@@ -1,6 +1,7 @@
 #pragma once
 #include <furi.h>
 #include <furi_hal.h>
+#include <lib/nfc/nfc_worker.h>
 
 typedef enum MifareFuzzerWorkerState {
     MifareFuzzerWorkerStateEmulate,
@@ -12,6 +13,8 @@ typedef enum MifareFuzzerWorkerState {
 
 typedef struct MifareFuzzerWorker {
     FuriThread* thread;
+    NfcWorker* nfc_worker;
+    NfcDevice* dev;
     MifareFuzzerWorkerState state;
     FuriHalNfcDevData nfc_dev_data;
 } MifareFuzzerWorker;
@@ -23,7 +26,11 @@ void mifare_fuzzer_worker_stop(MifareFuzzerWorker* mifare_fuzzer_worker);
 void mifare_fuzzer_worker_start(MifareFuzzerWorker* mifare_fuzzer_worker);
 // task
 int32_t mifare_fuzzer_worker_task(void* context);
-// 
+//
 bool mifare_fuzzer_worker_is_emulating(MifareFuzzerWorker* mifare_fuzzer_worker);
+
 void mifare_fuzzer_worker_set_nfc_dev_data(MifareFuzzerWorker* mifare_fuzzer_worker, FuriHalNfcDevData nfc_dev_data);
 FuriHalNfcDevData mifare_fuzzer_worker_get_nfc_dev_data(MifareFuzzerWorker* mifare_fuzzer_worker);
+
+void mifare_fuzzer_worker_set_nfc_device(MifareFuzzerWorker* mifare_fuzzer_worker, NfcDevice* nfc_device);
+NfcDevice* mifare_fuzzer_worker_get_nfc_device(MifareFuzzerWorker* mifare_fuzzer_worker);

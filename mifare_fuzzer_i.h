@@ -2,6 +2,7 @@
 
 #include <furi.h>
 #include <furi_hal.h>
+#include <lib/nfc/nfc_worker.h>
 
 #include <gui/gui.h>
 #include <gui/view_dispatcher.h>
@@ -48,7 +49,6 @@ typedef enum {
 } MifareFuzzerView;
 
 struct MifareFuzzerApp {
-
     Gui* gui;
 
     ViewDispatcher* view_dispatcher;
@@ -75,4 +75,5 @@ struct MifareFuzzerApp {
     FuriString* uid_str;
     Stream* uids_stream;
 
+    NfcDevice* dev;
 };
