@@ -69,20 +69,28 @@ bool mifare_fuzzer_scene_emulator_on_event(void* context, SceneManagerEvent even
     //FURI_LOG_D(TAG, "mifare_fuzzer_scene_emulator_on_event()");
     MifareFuzzerApp* app = context;
     MifareFuzzerEmulator* emulator = app->emulator_view;
+    MifareFuzzerWorkerState initial_worker_state = MifareFuzzerWorkerStateStop;
+
     if(app->card_file_path != NULL) {
         nfc_device_load(app->dev, furi_string_get_cstr(app->card_file_path), false);
     }
     NfcDevice* nfc_device = app->dev;
+
     if(nfc_device != NULL) {
         MfClassicType type = nfc_device->dev_data.mf_classic_data.type;
         if(type == MfClassicType1k) {
             app->card = MifareCardClassic1k;
+            initial_worker_state = MifareFuzzerWorkerStateEmulateClassic;
         } else if(type == MfClassicType4k) {
             app->card = MifareCardClassic4k;
+            initial_worker_state = MifareFuzzerWorkerStateEmulateClassic;
         } else if(nfc_device->dev_data.protocol == NfcDeviceProtocolMifareUl) {
             app->card = MifareCardUltralight;
+            initial_worker_state = MifareFuzzerWorkerStateEmulateUltralight;
         }
         mifare_fuzzer_emulator_set_card(emulator, app->card, app->card_file_path);
+    } else {
+        initial_worker_state = MifareFuzzerWorkerStateEmulateUid;
     }
 
     FuriHalNfcDevData nfc_dev_data;
@@ -192,7 +200,7 @@ bool mifare_fuzzer_scene_emulator_on_event(void* context, SceneManagerEvent even
             mifare_fuzzer_emulator_set_tick_num(app->emulator_view, tick_counter);
 
             // Start worker
-            mifare_fuzzer_worker_start(app->worker);
+            mifare_fuzzer_worker_start(app->worker, initial_worker_state);
         } else if(event.event == MifareFuzzerEventStopAttack) {
             //FURI_LOG_D(TAG, "mifare_fuzzer_scene_emulator_on_event() :: MifareFuzzerEventStopAttack");
             // Stop worker
