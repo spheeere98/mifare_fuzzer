@@ -105,10 +105,7 @@ int32_t mifare_fuzzer_worker_task(void* context) {
 /// @param mifare_fuzzer_worker
 /// @return
 bool mifare_fuzzer_worker_is_emulating(MifareFuzzerWorker* mifare_fuzzer_worker) {
-    if(mifare_fuzzer_worker->state != MifareFuzzerWorkerStateStop) {
-        return true;
-    }
-    return false;
+    return mifare_fuzzer_worker->state != MifareFuzzerWorkerStateStop;
 }
 
 /// @brief mifare_fuzzer_worker_set_nfc_dev_data()

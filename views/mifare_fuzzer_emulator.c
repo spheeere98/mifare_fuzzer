@@ -60,8 +60,8 @@ static void mifare_fuzzer_emulator_draw_callback(Canvas* canvas, void* _model) {
     canvas_draw_str(canvas, 15, 22, model->mifare_card_dsc);
     // Timing
     furi_string_printf(furi_string, "%d", model->ticks_between_cards);
-    canvas_draw_str(canvas, 90, 33, "t:");
-    canvas_draw_str(canvas, 100, 33, furi_string_get_cstr(furi_string));
+    canvas_draw_str(canvas, 100, 33, "t:");
+    canvas_draw_str(canvas, 110, 33, furi_string_get_cstr(furi_string));
     // Attack
     canvas_draw_str(canvas, 4, 33, "a:");
     canvas_draw_str(canvas, 15, 33, model->attack_dsc);
