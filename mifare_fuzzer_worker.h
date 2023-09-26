@@ -16,7 +16,7 @@ typedef enum MifareFuzzerWorkerState {
 typedef struct MifareFuzzerWorker {
     FuriThread* thread;
     NfcWorker* nfc_worker;
-    NfcDevice* dev;
+    NfcDevice* nfc_device;
     MifareFuzzerWorkerState state;
     FuriHalNfcDevData nfc_dev_data;
 } MifareFuzzerWorker;

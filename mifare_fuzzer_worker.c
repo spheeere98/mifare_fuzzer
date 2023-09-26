@@ -12,6 +12,7 @@ MifareFuzzerWorker* mifare_fuzzer_worker_alloc() {
     mifare_fuzzer_worker->thread = furi_thread_alloc_ex(
         "MifareFuzzerWorker", 8192, mifare_fuzzer_worker_task, mifare_fuzzer_worker);
     mifare_fuzzer_worker->nfc_worker = nfc_worker_alloc();
+    mifare_fuzzer_worker->nfc_device = nfc_device_alloc();
     mifare_fuzzer_worker->state = MifareFuzzerWorkerStateStop;
     return mifare_fuzzer_worker;
 }
@@ -22,6 +23,9 @@ void mifare_fuzzer_worker_free(MifareFuzzerWorker* mifare_fuzzer_worker) {
     furi_assert(mifare_fuzzer_worker);
     furi_thread_free(mifare_fuzzer_worker->thread);
     nfc_worker_free(mifare_fuzzer_worker->nfc_worker);
+    if(mifare_fuzzer_worker->nfc_device != NULL) {
+        nfc_device_free(mifare_fuzzer_worker->nfc_device);
+    }
     free(mifare_fuzzer_worker);
 }
 
@@ -76,7 +80,7 @@ int32_t mifare_fuzzer_worker_task(void* context) {
         nfc_worker_start(
             mifare_fuzzer_worker->nfc_worker,
             NfcWorkerStateMfClassicEmulate,
-            &mifare_fuzzer_worker->dev->dev_data,
+            &mifare_fuzzer_worker->nfc_device->dev_data,
             nfc_mf_classic_emulate_worker_callback,
             NULL);
     } else if(
@@ -87,7 +91,7 @@ int32_t mifare_fuzzer_worker_task(void* context) {
         nfc_worker_start(
             mifare_fuzzer_worker->nfc_worker,
             NfcWorkerStateMfUltralightEmulate,
-            &mifare_fuzzer_worker->dev->dev_data,
+            &mifare_fuzzer_worker->nfc_device->dev_data,
             nfc_mf_classic_emulate_worker_callback,
             NULL);
     }
@@ -129,12 +133,12 @@ FuriHalNfcDevData mifare_fuzzer_worker_get_nfc_dev_data(MifareFuzzerWorker* mifa
 void mifare_fuzzer_worker_set_nfc_device(
     MifareFuzzerWorker* mifare_fuzzer_worker,
     NfcDevice* nfc_device) {
-    mifare_fuzzer_worker->dev = nfc_device;
+    mifare_fuzzer_worker->nfc_device = nfc_device;
 }
 
 /// @brief mifare_fuzzer_worker_get_nfc_dev_data()
 /// @param mifare_fuzzer_worker
 /// @return
 NfcDevice* mifare_fuzzer_worker_get_nfc_device(MifareFuzzerWorker* mifare_fuzzer_worker) {
-    return mifare_fuzzer_worker->dev;
+    return mifare_fuzzer_worker->nfc_device;
 }

@@ -4,6 +4,7 @@
 #include <furi_hal.h>
 #include <gui/view.h>
 #include <gui/elements.h>
+#include <lib/nfc/nfc_device.h>
 
 typedef void (*MifareFuzzerEmulatorCallback)(MifareFuzzerEvent event, void* context);
 
@@ -49,25 +50,23 @@ void mifare_fuzzer_emulator_set_card(
     MifareFuzzerEmulator* mifare_fuzzer_emulator,
     MifareCard mifare_card,
     FuriString* name);
-void mifare_fuzzer_emulator_set_attack(MifareFuzzerEmulator* mifare_fuzzer_emulator, MifareFuzzerAttack mifare_attack);
+void mifare_fuzzer_emulator_set_attack(
+    MifareFuzzerEmulator* mifare_fuzzer_emulator,
+    MifareFuzzerAttack mifare_attack);
 
 void mifare_fuzzer_emulator_set_callback(
     MifareFuzzerEmulator* mifare_fuzzer_emulator,
     MifareFuzzerEmulatorCallback callback,
-    void* context
-);
+    void* context);
 
 void mifare_fuzzer_emulator_set_nfc_dev_data(
     MifareFuzzerEmulator* mifare_fuzzer_emulator,
-    FuriHalNfcDevData nfc_dev_data
-);
+    FuriHalNfcDevData nfc_dev_data);
 
 void mifare_fuzzer_emulator_set_ticks_between_cards(
     MifareFuzzerEmulator* mifare_fuzzer_emulator,
-    uint8_t ticks
-);
+    uint8_t ticks);
 
 void mifare_fuzzer_emulator_set_tick_num(
     MifareFuzzerEmulator* mifare_fuzzer_emulator,
-    uint8_t tick_num
-);
+    uint8_t tick_num);

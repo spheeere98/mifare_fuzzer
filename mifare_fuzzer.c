@@ -41,9 +41,6 @@ MifareFuzzerApp* mifare_fuzzer_alloc() {
     view_dispatcher_set_navigation_event_callback(
         app->view_dispatcher, mifare_fuzzer_back_event_callback);
 
-    // Setup NFC
-    app->dev = nfc_device_alloc();
-
     // 1000 ticks are about 1 sec
     view_dispatcher_set_tick_event_callback(
         app->view_dispatcher, mifare_fuzzer_tick_event_callback, MIFARE_FUZZER_TICK_PERIOD);
@@ -129,9 +126,6 @@ void mifare_fuzzer_free(MifareFuzzerApp* app) {
     // dialog
     furi_record_close(RECORD_DIALOGS);
     app->dialogs = NULL;
-
-    // nfc
-    app->dev = NULL;
 
     // furi strings
     furi_string_free(app->uid_str);

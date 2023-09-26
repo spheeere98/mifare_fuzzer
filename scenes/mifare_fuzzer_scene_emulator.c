@@ -71,10 +71,10 @@ bool mifare_fuzzer_scene_emulator_on_event(void* context, SceneManagerEvent even
     MifareFuzzerEmulator* emulator = app->emulator_view;
     MifareFuzzerWorkerState initial_worker_state = MifareFuzzerWorkerStateStop;
 
+    NfcDevice* nfc_device = app->worker->nfc_device;
     if(app->card_file_path != NULL) {
-        nfc_device_load(app->dev, furi_string_get_cstr(app->card_file_path), false);
+        nfc_device_load(nfc_device, furi_string_get_cstr(app->card_file_path), false);
     }
-    NfcDevice* nfc_device = app->dev;
 
     if(nfc_device != NULL) {
         MfClassicType type = nfc_device->dev_data.mf_classic_data.type;

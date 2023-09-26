@@ -76,6 +76,5 @@ struct MifareFuzzerApp {
     FuriString* uid_str;
     Stream* uids_stream;
 
-    NfcDevice* dev;
     FuriString* card_file_path;
 };
