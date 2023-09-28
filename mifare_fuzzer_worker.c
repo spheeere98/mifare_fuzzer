@@ -74,7 +74,6 @@ int32_t mifare_fuzzer_worker_task(void* context) {
     } else if(
         mifare_fuzzer_worker->state == MifareFuzzerWorkerStateEmulateClassic &&
         nfc_worker_get_state(mifare_fuzzer_worker->nfc_worker) != NfcWorkerStateMfClassicEmulate) {
-        nfc_worker_stop(mifare_fuzzer_worker->nfc_worker);
         nfc_worker_start(
             mifare_fuzzer_worker->nfc_worker,
             NfcWorkerStateMfClassicEmulate,
@@ -85,7 +84,6 @@ int32_t mifare_fuzzer_worker_task(void* context) {
         mifare_fuzzer_worker->state == MifareFuzzerWorkerStateEmulateUltralight &&
         nfc_worker_get_state(mifare_fuzzer_worker->nfc_worker) !=
             NfcWorkerStateMfUltralightEmulate) {
-        nfc_worker_stop(mifare_fuzzer_worker->nfc_worker);
         nfc_worker_start(
             mifare_fuzzer_worker->nfc_worker,
             NfcWorkerStateMfUltralightEmulate,
