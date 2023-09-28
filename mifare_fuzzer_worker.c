@@ -23,9 +23,7 @@ void mifare_fuzzer_worker_free(MifareFuzzerWorker* mifare_fuzzer_worker) {
     furi_assert(mifare_fuzzer_worker);
     furi_thread_free(mifare_fuzzer_worker->thread);
     nfc_worker_free(mifare_fuzzer_worker->nfc_worker);
-    if(mifare_fuzzer_worker->nfc_device != NULL) {
         nfc_device_free(mifare_fuzzer_worker->nfc_device);
-    }
     free(mifare_fuzzer_worker);
 }
 
