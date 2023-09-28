@@ -71,6 +71,8 @@ int32_t mifare_fuzzer_worker_task(void* context) {
             furi_delay_ms(50);
         }
         furi_hal_nfc_sleep();
+        mifare_fuzzer_worker->state = MifareFuzzerWorkerStateStop;
+
     } else if(
         mifare_fuzzer_worker->state == MifareFuzzerWorkerStateEmulateClassic &&
         nfc_worker_get_state(mifare_fuzzer_worker->nfc_worker) != NfcWorkerStateMfClassicEmulate) {
@@ -91,8 +93,6 @@ int32_t mifare_fuzzer_worker_task(void* context) {
             nfc_mf_classic_emulate_worker_callback,
             mifare_fuzzer_worker);
     }
-
-    mifare_fuzzer_worker->state = MifareFuzzerWorkerStateStop;
 
     return 0;
 }
